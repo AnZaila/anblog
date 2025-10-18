@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub Pages 部署指南</title>
+  <style>
+    :root {
+      --primary-color: #24292e;
+      --secondary-color: #0366d6;
+      --accent-color: #28a745;
+      --light-color: #f6f8fa;
+      --dark-color: #1b1f23;
+      --text-color: #24292e;
+      --border-color: #e1e4e8;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      background-color: #fff;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    header {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 2rem 0;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      opacity: 0.8;
+    }
+
+    nav {
+      background-color: var(--light-color);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      justify-content: center;
+    }
+
+    nav li {
+      margin: 0;
+    }
+
+    nav a {
+      display: block;
+      padding: 1rem 1.5rem;
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    nav a:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    section {
+      padding: 4rem 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    section:nth-child(even) {
+      background-color: var(--light-color);
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: var(--primary-color);
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      margin: 1.5rem 0 1rem;
+      color: var(--secondary-color);
+    }
+
+    p {
+      margin-bottom: 1rem;
+    }
+
+    .step {
+      background: white;
+      border-radius: 6px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      border-left: 4px solid var(--secondary-color);
+    }
+
+    .step-number {
+      display: inline-block;
+      background-color: var(--secondary-color);
+      color: white;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 30px;
+      margin-right: 10px;
+      font-weight: bold;
+    }
+
+    code {
+      background-color: var(--light-color);
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+      font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+      font-size: 0.9em;
+    }
+
+    pre {
+      background-color: var(--dark-color);
+      color: white;
+      padding: 1rem;
+      border-radius: 6px;
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+
+    pre code {
+      background-color: transparent;
+      padding: 0;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: var(--secondary-color);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background-color 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #0256b3;
+    }
+
+    .btn-success {
+      background-color: var(--accent-color);
+    }
+
+    .btn-success:hover {
+      background-color: #22863a;
+    }
+
+    .example-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .example-card {
+      background: white;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .example-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .example-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .example-card-content {
+      padding: 1.5rem;
+    }
+
+    .example-card h3 {
+      margin-top: 0;
+    }
+
+    footer {
+      background-color: var(--primary-color);
+      color: white;
+      text-align: center;
+      padding: 2rem 0;
+    }
+
+    .faq-item {
+      margin-bottom: 1.5rem;
+    }
+
+    .faq-question {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+
+    .faq-question::before {
+      content: "▶";
+      margin-right: 10px;
+      font-size: 0.8rem;
+      transition: transform 0.2s;
+    }
+
+    .faq-item.active .faq-question::before {
+      transform: rotate(90deg);
+    }
+
+    .faq-answer {
+      display: none;
+      padding-left: 20px;
+    }
+
+    .faq-item.active .faq-answer {
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      nav ul {
+        flex-direction: column;
+      }
+
+      section {
+        padding: 2rem 0;
+      }
+
+      h2 {
+        font-size: 1.75rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="container">
+      <h1>GitHub Pages 部署指南</h1>
+      <p>免费托管你的静态网站</p>
+    </div>
+  </header>
+
+  <nav>
+    <div class="container">
+      <ul>
+        <li><a href="#intro">介绍</a></li>
+        <li><a href="#steps">部署步骤</a></li>
+        <li><a href="#examples">示例项目</a></li>
+        <li><a href="#faq">常见问题</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container">
+    <section id="intro">
+      <h2>什么是 GitHub Pages？</h2>
+      <p>GitHub Pages 是 GitHub 提供的一项免费静态网站托管服务，可以直接从 GitHub 仓库部署网站。它非常适合托管个人网站、项目文档、博客等静态内容。</p>
+      <p>使用 GitHub Pages，你可以：</p>
+      <ul>
+        <li>免费托管静态网站</li>
+        <li>使用自定义域名</li>
+        <li>通过 Git 版本控制管理网站内容</li>
+        <li>自动部署（每次推送代码后自动更新网站）</li>
+        <li>使用 HTTPS 加密</li>
+      </ul>
+      <p>GitHub Pages 支持 HTML、CSS、JavaScript 等静态文件，也可以通过 Jekyll 生成静态网站。</p>
+    </section>
+
+    <section id="steps">
+      <h2>部署步骤</h2>
+
+      <div class="step">
+        <h3><span class="step-number">1</span> 创建 GitHub 账户</h3>
+        <p>如果你还没有 GitHub 账户，请先 <a href="https://github.com/join" target="_blank">注册一个</a>。</p>
+      </div>
+
+      <div class="step">
+        <h3><span class="step-number">2</span> 创建新仓库</h3>
+        <p>登录 GitHub，点击右上角的 "+" 图标，选择 "New repository"。</p>
+        <p>仓库名称必须遵循特定格式：<code>你的用户名.github.io</code></p>
+        <p>例如，如果你的用户名是 "johnsmith"，那么仓库名应该是 <code>johnsmith.github.io</code>。</p>
+        <p>确保选择 "Public"（公开）仓库，因为私有仓库的 GitHub Pages 功能有限。</p>
+      </div>
+
+      <div class="step">
+        <h3><span class="step-number">3</span> 准备你的网站文件</h3>
+        <p>创建一个包含你的网站文件的文件夹。至少需要一个 <code>index.html</code> 文件作为主页。</p>
+        <p>示例文件结构：</p>
+        <pre><code>my-website/
+├── index.html
+├── about.html
+├── css/
+│   └── style.css
+├── js/
+│   └── script.js
+└── images/
+    └── logo.png</code></pre>
+      </div>
+
+      <div class="step">
+        <h3><span class="step-number">4</span> 上传文件到仓库</h3>
+        <p>有几种方法可以将文件上传到 GitHub 仓库：</p>
+
+        <h4>方法一：使用 GitHub 网页界面</h4>
+        <p>在仓库页面，点击 "Add file" → "Upload files"，然后将你的网站文件拖放到上传区域。</p>
+
+        <h4>方法二：使用 Git 命令行</h4>
+        <p>如果你熟悉 Git，可以使用以下命令：</p>
+        <pre><code># 克隆仓库到本地
+git clone https://github.com/你的用户名/你的用户名.github.io.git
+
+# 进入仓库目录
+cd 你的用户名.github.io
+
+# 将网站文件复制到仓库目录中
+
+# 添加所有文件到 Git
+git add .
+
+# 提交更改
+git commit -m "Initial website deployment"
+
+# 推送到 GitHub
+git push origin main</code></pre>
+      </div>
+
+      <div class="step">
+        <h3><span class="step-number">5</span> 启用 GitHub Pages</h3>
+        <p>在仓库页面，点击 "Settings" 选项卡，然后向下滚动到 "Pages" 部分。</p>
+        <p>在 "Source" 下拉菜单中，选择你的网站文件所在的分支（通常是 <code>main</code> 或 <code>master</code>），然后点击 "Save"。</p>
+        <p>几分钟后，你的网站将在 <code>https://你的用户名.github.io</code> 上线！</p>
+      </div>
+
+      <div class="step">
+        <h3><span class="step-number">6</span> 自定义域名（可选）</h3>
+        <p>如果你想使用自己的域名，可以在仓库的 "Settings" → "Pages" 部分添加自定义域名。</p>
+        <p>你还需要在域名注册商处配置 DNS 记录，将域名指向 GitHub Pages。</p>
+      </div>
+    </section>
+
+    <section id="examples">
+      <h2>示例项目</h2>
+      <p>以下是一些适合部署到 GitHub Pages 的静态网站示例：</p>
+
+      <div class="example-grid">
+        <div class="example-card">
+          <div class="example-card-content">
+            <h3>个人简历网站</h3>
+            <p>展示你的技能、工作经历和项目的个人网站。</p>
+            <p><strong>技术栈：</strong> HTML, CSS, JavaScript</p>
+          </div>
+        </div>
+
+        <div class="example-card">
+          <div class="example-card-content">
+            <h3>项目文档</h3>
+            <p>为你的开源项目创建详细的文档网站。</p>
+            <p><strong>技术栈：</strong> Markdown, Jekyll</p>
+          </div>
+        </div>
+
+        <div class="example-card">
+          <div class="example-card-content">
+            <h3>作品集</h3>
+            <p>设计师或开发者的作品展示网站。</p>
+            <p><strong>技术栈：</strong> HTML, CSS, JavaScript</p>
+          </div>
+        </div>
+
+        <div class="example-card">
+          <div class="example-card-content">
+            <h3>博客</h3>
+            <p>使用 Jekyll 或类似工具创建的静态博客。</p>
+            <p><strong>技术栈：</strong> Jekyll, Markdown</p>
+          </div>
+        </div>
+      </div>
+
+      <p style="margin-top: 2rem;">你可以直接复制这个页面的代码，保存为 <code>index.html</code>，然后按照上面的步骤部署到 GitHub Pages！</p>
+      <a href="#" class="btn btn-success" id="download-btn">下载此页面代码</a>
+    </section>
+
+    <section id="faq">
+      <h2>常见问题</h2>
+
+      <div class="faq-item">
+        <div class="faq-question">GitHub Pages 是免费的吗？</div>
+        <div class="faq-answer">
+          <p>是的，GitHub Pages 对公开仓库完全免费。对于私有仓库，GitHub Pages 功能有限，但 GitHub Pro 用户可以享受更多功能。</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">GitHub Pages 支持哪些文件类型？</div>
+        <div class="faq-answer">
+          <p>GitHub Pages 支持所有静态文件类型，包括 HTML、CSS、JavaScript、图片、PDF 等。它不支持服务器端语言如 PHP、Ruby 或 Python。</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">网站部署需要多长时间？</div>
+        <div class="faq-answer">
+          <p>通常，网站会在你推送更改后的 1-10 分钟内更新。首次部署可能需要稍长时间。</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">我可以使用自定义域名吗？</div>
+        <div class="faq-answer">
+          <p>是的，GitHub Pages 支持自定义域名。你需要在仓库设置中添加域名，并在域名注册商处配置 DNS 记录。</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">GitHub Pages 有存储限制吗？</div>
+        <div class="faq-answer">
+          <p>GitHub Pages 网站建议不超过 1GB。如果超过此限制，可能会收到 GitHub 的提醒。</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">我可以使用数据库吗？</div>
+        <div class="faq-answer">
+          <p>不行，GitHub Pages 只支持静态内容。如果你需要数据库功能，可以考虑使用第三方服务如 Firebase 或结合 API 使用。</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>GitHub Pages 部署指南 &copy; 2023</p>
+      <p>本页面本身就是一个可以直接部署到 GitHub Pages 的静态网页示例！</p>
+    </div>
+  </footer>
+
+  <script>
+    // FAQ 交互功能
+    document.querySelectorAll('.faq-question').forEach(question => {
+      question.addEventListener('click', () => {
+        const item = question.parentElement;
+        item.classList.toggle('active');
+      });
+    });
+
+    // 下载页面代码功能
+    document.getElementById('download-btn').addEventListener('click', function (e) {
+      e.preventDefault();
+
+      // 获取当前页面的HTML内容
+      const htmlContent = document.documentElement.outerHTML;
+
+      // 创建Blob对象
+      const blob = new Blob([htmlContent], { type: 'text/html' });
+
+      // 创建下载链接
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'index.html';
+
+      // 触发下载
+      document.body.appendChild(a);
+      a.click();
+
+      // 清理
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 0);
+    });
+  </script>
+</body>
+
+</html>
